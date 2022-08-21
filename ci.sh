@@ -13,6 +13,8 @@ tar -cjf homebrew-pck.tar.bz2 rc_bin
 FILE=`realpath homebrew-pck.tar.bz2`
 cd ../../
 VER=$(sed -ne 's/version\s?*=\s?*\"\(.*\)\"/\1/p' ./Cargo.toml)
+curl --head --fail --silent https://github.com/USR/PROJECT/releases/tag/VER
+if [ $? == 0 ]; then
 gh release create $VER \
 $FILE \
 --generate-notes
@@ -32,3 +34,4 @@ cd ..
 git add --all
 git commit -am "Updated"
 git push origin main
+fi
